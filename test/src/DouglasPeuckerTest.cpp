@@ -9,14 +9,14 @@
 using namespace std;
 
 void DouglasPeuckerTest::distanceTest(){
-  DouglasPuecker2D<p2d> dp2d;
+  DouglasPuecker2D<p2d, p2dAccessor> dp2d;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0,
 			       dp2d._distance(p2d(-2, 1),
 					      p2d(1, 5)), 0.001F);
 }
 
 void DouglasPeuckerTest::pointSegmentDistance(){
-  DouglasPuecker2D<p2d> dp2d;
+  DouglasPuecker2D<> dp2d;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(3.328F,
 			       dp2d._pointSegmentDistance(p2d(1.0F, -2.0F/3.0F),
 							  p2d(2.0F, 0.0F),
@@ -36,10 +36,13 @@ void DouglasPeuckerTest::simplifyTest(){
 	p2d(8, 0.5870035672249242),
 	p2d(9, 0.30798338294249766)
     });
-  DouglasPuecker2D<p2d> dp2d(points);
-  dp2d.simplify(0.01);
+  DouglasPuecker2D<p2d, p2dAccessor> dp2d(points);
+  dp2d.simplify(0.1);
 
-  for(auto i : dp2d.getLine()){
-    cout << get<0>(i) <<  ", " << get<1>(i) << endl;
+  for(auto p : dp2d.getLine()){
+    if((int)get<0>(p) == 0) continue;
+    CPPUNIT_ASSERT(1 == ((int)get<0>(p) % 2));  // Only odd vertices remained.
   }
+  
+  CPPUNIT_ASSERT(5 == dp2d.getLine().size());
 }

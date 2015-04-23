@@ -71,13 +71,13 @@ protected:
     
     double dist = 0.0f;
     listIter<T> index = _getFarthestPointFromSegment(it1, it2, &dist);
-    //cout << get<0>(*it1) <<  ", " << get<0>(*index) << ", " << get<0>(*it2) << " # ";
-    //cout << dist << endl;
+
+    // If the farthest point exceeds epsilon, recurse, with index as pivot.
     if(dist > epsilon){
       _simplify(epsilon, it1, index);
       _simplify(epsilon, index, it2);
     }else{
-      // Discard all that is not index between it1 and it2.
+      // Delete everything except it1 and it2.
       auto it = it1;
       it++;
       for(; it != it2; ){
@@ -92,14 +92,24 @@ protected:
 
 using p2d = tuple<double, double>;
 
-template <typename T = p2d>
+struct p2dAccessor{
+  inline static double getX(const p2d& p){
+    return get<0>(p);
+  }
+
+  inline static double getY(const p2d& p){
+    return get<1>(p);
+  }
+};
+
+template <typename T=p2d, typename TAccessor2D=p2dAccessor>
 class DouglasPuecker2D final : public DouglasPeuckerAbstract<T>{
  public:
   using DouglasPeuckerAbstract<T>::DouglasPeuckerAbstract;
   virtual double _distance(const T& p1,
 			   const T& p2) const override{
-    double x2 = ::get<0>(p1) - ::get<0>(p2);
-    double y2 = ::get<1>(p1) - ::get<1>(p2);
+    double x2 = TAccessor2D::getX(p1) - TAccessor2D::getX(p2);
+    double y2 = TAccessor2D::getY(p1) - TAccessor2D::getY(p2);
     return std::sqrt(x2*x2 + y2*y2);
   }
   
@@ -108,15 +118,13 @@ class DouglasPuecker2D final : public DouglasPeuckerAbstract<T>{
 				       const T& p) const override{
     // Ax + By + C = 0. A = slope, B = 1, C = (-y1+slope*x1).
     // (m, n) is in itp.
-    double slope = (::get<1>(p2) - ::get<1>(p1))/(::get<0>(p2) - ::get<0>(p1));
+    double slope = (TAccessor2D::getY(p2) - TAccessor2D::getY(p1))/
+      (TAccessor2D::getX(p2) - TAccessor2D::getX(p1));
     double A = slope;
-    double Am = A*::get<0>(p);
-    //cout << Am << endl;
+    double Am = A*TAccessor2D::getX(p);
     double B = -1;
-    double Bn = B*::get<1>(p);
-    //cout << Bn << endl;
-    double C = ::get<1>(p1) - slope*::get<0>(p1);
-    //cout << C << endl;SW
+    double Bn = B*TAccessor2D::getY(p);
+    double C = TAccessor2D::getY(p1) - slope*TAccessor2D::getX(p1);
 
     return std::abs(Am + Bn + C)/std::sqrt(A*A+B*B);
   }

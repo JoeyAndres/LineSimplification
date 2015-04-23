@@ -2,4 +2,4 @@
 
 using namespace std;
 
-class DouglasPuecker2D<p2d>;
+class DouglasPuecker2D<p2d, p2dAccessor>;
