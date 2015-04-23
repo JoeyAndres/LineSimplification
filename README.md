@@ -34,10 +34,10 @@ cd src
 The following is the basic use. By default, the point is represented by ```p2d```, which is just a 2d tuple.
 
 ```c++
-list<p2d> points;
+std::list<p2d> points;
 DouglasPeucker2D<> dp2d(points);
 dp2d.simplify(0.1);  // Pass in an epsilon. The bigger the stronger the effect. Experiment with this.
-list<p2d> resultLine = dp2d.getLine();  // Retrieve simplified points.
+std::list<p2d> resultLine = dp2d.getLine();  // Retrieve simplified points.
 ```
 
 To be able to use your own "point type", you can pass in your own point type. Doing so requires an accessor object that will allow to obtain x and y coordinates.
@@ -58,7 +58,7 @@ struct PointAccessor{
   }
 };
 
-list<Point> points;
+std::list<Point> points;
 DouglasPeucker2D<Point, PointAccessor> dp2d(points);
 // An so on...
 ```
