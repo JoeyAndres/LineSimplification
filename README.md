@@ -40,12 +40,32 @@ dp2d.simplify(0.1);  // Pass in an epsilon. The bigger the stronger the effect. 
 list<p2d> resultLine = dp2d.getLine();  // Retrieve simplified points.
 ```
 
-To be able to use your own "point type", you can pass in your own point type. Doing so requires an accessor object that will allow to obtain x and y coordinates.
+To be able to use your own "point type", you can pass in your own point type. Ensure that your point type have a ```getX()``` and ```getY()```.
+
+```c++
+struct Point{
+  double x, y;
+
+  double getX() const{
+    return x;
+  }
+
+  double getY() const{
+    return y;
+  }
+};
+
+list<Point> points;
+DouglasPeucker2D<Point> dp2d(points);
+// An so on...
+```
+
+OR, if you're point type don't have ```getX()``` and ```getY()``` defined, and you can't inherit and add those features either, you can define an accessor struct/class, like the following:
 
 
 ```c++
 struct Point{
-  int x, y;
+  double x, y;
 };
 
 struct PointAccessor{
@@ -66,4 +86,4 @@ DouglasPeucker2D<Point, PointAccessor> dp2d(points);
 As you can see, you can easily modify this for your own data type.
 
 # More Info
-If you are stuck and need help, feel free to contact me at <jandres@ualberta.ca>.
+If you are stuck and need help, feel free to contact me at <jandres@ualberta.ca>. I'm always glad to help.

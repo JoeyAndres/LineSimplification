@@ -14,24 +14,51 @@ using listIter = typename list<T>::iterator;
 
 /*!@class DouglasPeucker
  * @brief Line simplification algorithm.
+ * @typename T the data type of the point that will be dealt with.
  */
 template<typename T>
 class DouglasPeuckerAbstract{
 public:
   // No-arg constructor.
   DouglasPeuckerAbstract(){}
+
+  /**
+   * @param line a list of point with data type T.
+   */
   DouglasPeuckerAbstract(list<T>& line) : _line(line){}
 
+  /**
+   * @return line which is a list of points with type T.
+   */
   list<T>& getLine(){ return _line; }
+
+  /**
+   * @return line which is a list of points with type T.
+   */
   const list<T>& getLine() const{ return _line; }
-  
+
+  /**
+   * @param epsilon The higher, the more points gotten rid of.
+   */
   void simplify(double epsilon){
     listIter<T> endIter = _line.end();
     _simplify(epsilon, _line.begin(), --endIter);
   }
 
 protected:
+  /**
+   * @param p1 first point.
+   * @param p2 second point.
+   * @return distance between p1 and p2.
+   */
   virtual double _distance(const T& p1, const T& p2) const = 0;
+
+  /**
+   * @param p1 First point in the segment.
+   * @param p2 Second point in the segment.
+   * @param p A point around the segement.
+   * @return distance from segment p1p2 to p.
+   */
   virtual double _pointSegmentDistance(const T& p1, const T& p2, const T& p) const = 0;
 
   /**
@@ -64,6 +91,12 @@ protected:
     return maxIt;
   }
 
+  /**
+   * Recursively delete points that are within epsilon.
+   * @param epsilon the higher the more aggressive.
+   * @param iterator of the first point in a segment.
+   * @param iterator of the last point in a segment.
+   */
   void _simplify(double epsilon,
 		 listIter<T> it1,
 		 listIter<T> it2){
@@ -90,8 +123,10 @@ protected:
   list<T> _line;
 };
 
+// Default point type, which is a tuple<double, double>.
 using p2d = tuple<double, double>;
 
+// Struct that enclose the accessor for p2d.
 struct p2dAccessor{
   inline static double getX(const p2d& p){
     return get<0>(p);
@@ -102,7 +137,7 @@ struct p2dAccessor{
   }
 };
 
-template <typename T=p2d, typename TAccessor2D=p2dAccessor>
+template <typename T, typename TAccessor2D=void>
 class DouglasPuecker2D final : public DouglasPeuckerAbstract<T>{
  public:
   using DouglasPeuckerAbstract<T>::DouglasPeuckerAbstract;
@@ -125,6 +160,33 @@ class DouglasPuecker2D final : public DouglasPeuckerAbstract<T>{
     double B = -1;
     double Bn = B*TAccessor2D::getY(p);
     double C = TAccessor2D::getY(p1) - slope*TAccessor2D::getX(p1);
+
+    return std::abs(Am + Bn + C)/std::sqrt(A*A+B*B);
+  }
+};
+
+template <typename T>
+class DouglasPuecker2D<T, void> final : public DouglasPeuckerAbstract<T>{
+ public:
+  using DouglasPeuckerAbstract<T>::DouglasPeuckerAbstract;
+  virtual double _distance(const T& p1,
+			   const T& p2) const override{
+    double x2 = p1.getX() - p2.getX();
+    double y2 = p1.getY() - p2.getY();
+    return std::sqrt(x2*x2 + y2*y2);
+  }
+  
+  virtual double _pointSegmentDistance(const T& p1,
+				       const T& p2,
+				       const T& p) const override{
+    // Ax + By + C = 0. A = slope, B = 1, C = (-y1+slope*x1).
+    // (m, n) is in itp.
+    double slope = (p2.getY() - p1.getY())/(p2.getX() - p1.getX());
+    double A = slope;
+    double Am = A*p.getX();
+    double B = -1;
+    double Bn = B*p.getY();
+    double C = p1.getY() - slope*p1.getX();
 
     return std::abs(Am + Bn + C)/std::sqrt(A*A+B*B);
   }
