@@ -9,26 +9,7 @@ For more info, visit the wikipedia [entry](http://en.wikipedia.org/wiki/Ramer%E2
 That's it!
 
 # How to use:
-To be able to do anything, first clone this repository. Ensure you have ```cmake 2.8``` or greater. Or feel free to convert cmake to your own ```Makefile```.
-
-## Building
-To build,
-
-
-```bash
-cd LineSimplification # or wherever you cloned this directory.
-
-# Build
-mkdir build
-cd build
-cmake ..
-make
-
-# Acquire the compiled library.
-cd src
-# In build/src directory, there should be libdouglas_peucker.a file.
-# Do whatever you want with it.
-```
+To be able to do anything, first clone this repository. Copy the ```DouglasPeucker.h``` from ```include/``` directory to your own, and your done. The ```src``` is just a code snippet for helping me debug, so don't bother with that.
 
 ## Sample code
 The following is the basic use. By default, the point is represented by ```p2d```, which is just a 2d tuple.
