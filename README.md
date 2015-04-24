@@ -4,9 +4,9 @@ Line simplification algorithm utilizing Douglas-Peucker algorithm.
 For more info, visit the wikipedia [entry](http://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm).
 
 # Requirements:
-1. cmake 2.8 or greater.
-2. compiler with c++11.
-3. (Optional) To be able to run test, you might want to install [cppunit](http://sourceforge.net/projects/cppunit/).
+1. A compiler with c++11 support. This is a template based module, thus you can't really compile it.
+
+That's it!
 
 # How to use:
 To be able to do anything, first clone this repository. Ensure you have ```cmake 2.8``` or greater. Or feel free to convert cmake to your own ```Makefile```.
