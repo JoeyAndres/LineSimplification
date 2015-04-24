@@ -12,7 +12,7 @@ That's it!
 To be able to do anything, first clone this repository. Copy the ```DouglasPeucker.h``` from ```include/``` directory to your own, and your done. The ```src``` is just a code snippet for helping me debug, so don't bother with that.
 
 ## Sample code
-The following is the basic use. By default, the point is represented by ```p2d```, which is just a 2d tuple.
+The following is the basic use. For 2d points there is already p2d defined, which is simply ```std::tuple<double, double>```. 
 
 ```c++
 std::list<p2d> points;
