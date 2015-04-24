@@ -25,7 +25,7 @@ public:
   /**
    * @param line a list of point with data type T.
    */
-  DouglasPeuckerAbstract(list<T>& line) : _line(line){}
+  DouglasPeuckerAbstract(const list<T>& line) : _line(line){}
 
   /**
    * @return line which is a list of points with type T.
@@ -189,5 +189,55 @@ class DouglasPuecker2D<T, void> final : public DouglasPeuckerAbstract<T>{
     double C = p1.getY() - slope*p1.getX();
 
     return std::abs(Am + Bn + C)/std::sqrt(A*A+B*B);
+  }
+};
+
+template <typename T, typename TAccessor3D=void>
+class DouglasPuecker3D final : public DouglasPeuckerAbstract<T>{
+ public:
+  using DouglasPeuckerAbstract<T>::DouglasPeuckerAbstract;
+  virtual double _distance(const T& p1,
+			   const T& p2) const override{
+    double x2 = TAccessor3D::getX(p1) - TAccessor3D::getX(p2);
+    double y2 = TAccessor3D::getY(p1) - TAccessor3D::getY(p2);
+    double z2 = TAccessor3D::getZ(p1) - TAccessor3D::getZ(p2);
+    return std::sqrt(x2*x2 + y2*y2 + z2*z2);
+  }
+  
+  virtual double _pointSegmentDistance(const T& x1,
+				       const T& x2,
+				       const T& x0) const override{
+    /**
+     * d = |(x0-x1)x(x0-x2)|/|x2-x1|
+     * 
+     * Decompose:
+     * 
+     * Let x0Mx1 = x0-x1
+     *     x0Mx2 = x0-x2
+     *     x2Mx1 = x2-x1
+     */
+
+    double x0Mx1_x = TAccessor3D::getX(x0) - TAccessor3D::getX(x1);
+    double x0Mx1_y = TAccessor3D::getY(x0) - TAccessor3D::getY(x1);
+    double x0Mx1_z = TAccessor3D::getZ(x0) - TAccessor3D::getZ(x1);
+
+    double x0Mx2_x = TAccessor3D::getX(x0) - TAccessor3D::getX(x2);
+    double x0Mx2_y = TAccessor3D::getY(x0) - TAccessor3D::getY(x2);
+    double x0Mx2_z = TAccessor3D::getZ(x0) - TAccessor3D::getZ(x2);
+
+    double x2Mx1_x = TAccessor3D::getX(x2) - TAccessor3D::getX(x1);
+    double x2Mx1_y = TAccessor3D::getY(x2) - TAccessor3D::getY(x1);
+    double x2Mx1_z = TAccessor3D::getZ(x2) - TAccessor3D::getZ(x1);
+
+    // Acquire cross product.    
+    double cx = x0Mx1_y*x0Mx2_z - x0Mx1_z*x0Mx2_y;
+    double cy = x0Mx1_z*x0Mx2_x - x0Mx1_x*x0Mx2_z;
+    double cz = x0Mx1_x*x0Mx2_y - x0Mx1_y*x0Mx2_x;
+
+    // Acquire magnitudes.
+    double mag01 = std::sqrt(cx*cx + cy*cy + cz*cz);
+    double mag02 = std::sqrt(x2Mx1_x*x2Mx1_x + x2Mx1_y*x2Mx1_y + x2Mx1_z*x2Mx1_z);
+
+    return mag01/mag02;
   }
 };

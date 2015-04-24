@@ -17,6 +17,17 @@ struct point2d{
   double _x, _y;
 };
 
+struct point3d{
+  point3d(double x, double y, double z) : _x(x), _y(y), _z(z){}
+  double _x, _y, _z;
+};
+
+struct point3dAccessor{
+  static double getX(const point3d& p){return p._x;}
+  static double getY(const point3d& p){return p._y;}
+  static double getZ(const point3d& p){return p._z;}
+};
+
 void DouglasPeuckerTest::distanceTest(){
   DouglasPuecker2D<p2d, p2dAccessor> dp2d;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0,
@@ -46,6 +57,16 @@ void DouglasPeuckerTest::pointSegmentDistance2(){
 			       dp2d._pointSegmentDistance(point2d(1.0F, -2.0F/3.0F),
 							  point2d(2.0F, 0.0F),
 							  point2d(5.0F, 6.0F)), 0.001F);
+}
+
+// For simplicity, we are just going to test if this is consistent with the 2D, by just
+// adding 0 as the magntide of 3rd dimension.
+void DouglasPeuckerTest::pointSegmentDistance3D(){
+  DouglasPuecker3D<point3d, point3dAccessor> dp3d;
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(3.328F,
+			       dp3d._pointSegmentDistance(point3d(1.0F, -2.0F/3.0F, 0.0f),
+							  point3d(2.0F, 0.0F, 0.0f),
+							  point3d(5.0F, 6.0F, 0.0f)), 0.001F);
 }
 
 void DouglasPeuckerTest::simplifyTest(){
