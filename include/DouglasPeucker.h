@@ -148,6 +148,13 @@ struct p2dAccessor{
   inline static double getY(const p2d& p) { return std::get<1>(p); }
 };
 
+/*!@class Distance2D
+ * @brief cartesian distance in 2D.
+ *
+ * @typename T 2D data type.
+ * @typename TAccessor2D an accessor class that contains getX and getY.
+ *                       defaults to void if T have getX and getY method.
+ */
 template<typename T, typename TAccessor2D = void>
 class Distance2D{
  public:
@@ -158,6 +165,11 @@ class Distance2D{
   }
 };
 
+/*!@class Distance2D
+ * @brief cartesian distance in 2D.
+ *
+ * @typename T 2D data type.
+ */
 template<typename T>
 class Distance2D<T, void>{
  public:
@@ -168,6 +180,13 @@ class Distance2D<T, void>{
   }
 };
 
+/*!@class PointSegmentDistance2D
+ * @brief Distance between point and a line segment.
+ *
+ * @typename T 2D data type.
+ * @typename TAccessor2D an accessor class that contains getX and getY.
+ *                       defaults to void if T have getX and getY method.
+ */
 template <typename T, typename TAccessor2D = void>
 class PointSegmentDistance2D{
  public:
@@ -188,6 +207,11 @@ class PointSegmentDistance2D{
   }
 };
 
+/*!@class PointSegmentDistance2D
+ * @brief Distance between point and a line segment.
+ *
+ * @typename T 2D data type.
+ */
 template <typename T>
 class PointSegmentDistance2D<T, void>{
  public:
@@ -207,6 +231,13 @@ class PointSegmentDistance2D<T, void>{
   }
 };
 
+/*!@class DouglasPuecker2D
+ * @brief Douglas-Peucker implementation for 2D line.
+ *
+ * @typename T 2D data type.
+ * @typename TAccessor2D an accessor class that contains getX and getY.
+ *                       defaults to void if T have getX and getY method.
+ */
 template <typename T, typename TAccessor2D = void>
 class DouglasPuecker2D final : public DouglasPeuckerAbstract<T>{
  public:
@@ -223,6 +254,11 @@ class DouglasPuecker2D final : public DouglasPeuckerAbstract<T>{
   }
 };
 
+/*!@class DouglasPuecker2D
+ * @brief Douglas-Peucker implementation for 2D line.
+ *
+ * @typename T 2D data type.
+ */
 template <typename T>
 class DouglasPuecker2D<T, void> final : public DouglasPeuckerAbstract<T>{
  public:
@@ -256,6 +292,13 @@ struct p3dAccessor{
   }
 };
 
+/*!@class Distance3D
+ * @brief cartesian distance in 3D.
+ *
+ * @typename T 3D data type.
+ * @typename TAccessor3D an accessor class that contains getX, getY and getZ.
+ *                       defaults to void if T have getX, getY, getZ.
+ */
 template<typename T, typename TAccessor3D = void>
 class Distance3D{
  public:
@@ -267,6 +310,11 @@ class Distance3D{
   }
 };
 
+/*!@class Distance3D
+ * @brief cartesian distance in 3D.
+ *
+ * @typename T 3D data type.
+ */
 template<typename T>
 class Distance3D<T, void>{
  public:
@@ -278,6 +326,13 @@ class Distance3D<T, void>{
   }
 };
 
+/*!@class PointSegmentDistance3D
+ * @brief Distance between point and a line segment.
+ *
+ * @typename T 3D data type.
+ * @typename TAccessor3D an accessor class that contains getX, getY and getZ.
+ *                       defaults to void if T have getX, getY, getZ.
+ */
 template <typename T, typename TAccessor3D = void>
 class PointSegmentDistance3D{
  public:
@@ -319,6 +374,11 @@ class PointSegmentDistance3D{
   }
 };
 
+/*!@class PointSegmentDistance3D
+ * @brief Distance between point and a line segment.
+ *
+ * @typename T 3D data type.
+ */
 template <typename T>
 class PointSegmentDistance3D<T, void>{
  public:
@@ -361,6 +421,13 @@ class PointSegmentDistance3D<T, void>{
   }
 };
 
+/*!@class DouglasPuecker3D
+ * @brief Douglas-Peucker implementation for 3d line.
+ *
+ * @typename T 3D data type.
+ * @typename TAccessor3D an accessor class that contains getX, getY and getZ.
+ *                       defaults to void if T have getX, getY, getZ.
+ */
 template <typename T, typename TAccessor3D = void>
 class DouglasPuecker3D final : public DouglasPeuckerAbstract<T>{
  public:
@@ -379,6 +446,11 @@ class DouglasPuecker3D final : public DouglasPeuckerAbstract<T>{
   }
 };
 
+/*!@class DouglasPuecker3D
+ * @brief Douglas-Peucker implementation for 3d line.
+ *
+ * @typename T 3D data type.
+ */
 template <typename T>
 class DouglasPuecker3D<T, void> final : public DouglasPeuckerAbstract<T>{
  public:

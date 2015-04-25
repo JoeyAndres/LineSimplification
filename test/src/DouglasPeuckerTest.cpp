@@ -48,22 +48,20 @@ struct point3dAccessor{
 };
 
 void DouglasPeuckerTest::distanceTest() {
-  DouglasPuecker2D<p2d, p2dAccessor> dp2d;
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0,
-                               dp2d._distance(p2d(-2, 1),
-                                              p2d(1, 5)), 0.001F);
+  double result = Distance2D<p2d, p2dAccessor>::getDistance(p2d(-2, 1),
+                                                            p2d(1, 5));
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0, result, 0.001F);
 }
 
 void DouglasPeuckerTest::distanceTest2() {
-  DouglasPuecker2D<point2d> dp2d;
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0,
-                               dp2d._distance(point2d(-2, 1),
-                                              point2d(1, 5)), 0.001F);
+  double result = Distance2D<point2d>::getDistance(point2d(-2, 1),
+                                                   point2d(1, 5));
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0, result, 0.001F);
 }
 
 
 void DouglasPeuckerTest::pointSegmentDistance() {
-  DouglasPuecker2D<p2d, p2dAccessor> dp2d;
+  DouglasPuecker2D<p2d, p2dAccessor> dp2d(std::list<p2d>({}));
   double result = dp2d._pointSegmentDistance(p2d(1.0F, -2.0F/3.0F),
                                              p2d(2.0F, 0.0F),
                                              p2d(5.0F, 6.0F));
@@ -71,7 +69,7 @@ void DouglasPeuckerTest::pointSegmentDistance() {
 }
 
 void DouglasPeuckerTest::pointSegmentDistance2() {
-  DouglasPuecker2D<point2d> dp2d;
+  DouglasPuecker2D<point2d> dp2d(std::list<point2d>({}));
   double result = dp2d._pointSegmentDistance(point2d(1.0F, -2.0F/3.0F),
                                              point2d(2.0F, 0.0F),
                                              point2d(5.0F, 6.0F));
@@ -81,7 +79,7 @@ void DouglasPeuckerTest::pointSegmentDistance2() {
 // For simplicity, we are just going to test if this is consistent with the 2D,
 // by just adding 0 as the magntide of 3rd dimension.
 void DouglasPeuckerTest::pointSegmentDistance3D() {
-  DouglasPuecker3D<p3d, p3dAccessor> dp3d;
+  DouglasPuecker3D<p3d, p3dAccessor> dp3d(std::list<p3d>({}));
   double result = dp3d._pointSegmentDistance(p3d(1.0F, -2.0F/3.0F, 0.0f),
                                              p3d(2.0F, 0.0F, 0.0f),
                                              p3d(5.0F, 6.0F, 0.0f));
@@ -89,7 +87,7 @@ void DouglasPeuckerTest::pointSegmentDistance3D() {
 }
 
 void DouglasPeuckerTest::pointSegmentDistance3D2() {
-  DouglasPuecker3D<point3d> dp3d;
+  DouglasPuecker3D<point3d> dp3d(std::list<point3d>({}));
   double result = dp3d._pointSegmentDistance(point3d(1.0F, -2.0F/3.0F, 0.0f),
                                              point3d(2.0F, 0.0F, 0.0f),
                                              point3d(5.0F, 6.0F, 0.0f));
