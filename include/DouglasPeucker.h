@@ -34,9 +34,6 @@ using listIter = typename std::list<T>::iterator;
 template<typename T>
 class DouglasPeuckerAbstract{
  public:
-  // No-arg constructor.
-  DouglasPeuckerAbstract() {}
-
   /**
    * @param line a list of point with data type T.
    */
