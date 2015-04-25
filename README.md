@@ -4,34 +4,15 @@ Line simplification algorithm utilizing Douglas-Peucker algorithm.
 For more info, visit the wikipedia [entry](http://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm).
 
 # Requirements:
-1. cmake 2.8 or greater.
-2. compiler with c++11.
-3. (Optional) To be able to run test, you might want to install [cppunit](http://sourceforge.net/projects/cppunit/).
+1. A compiler with c++11 support. This is a template based module, thus you can't really compile it.
+
+That's it!
 
 # How to use:
-To be able to do anything, first clone this repository. Ensure you have ```cmake 2.8``` or greater. Or feel free to convert cmake to your own ```Makefile```.
-
-## Building
-To build,
-
-
-```bash
-cd LineSimplification # or wherever you cloned this directory.
-
-# Build
-mkdir build
-cd build
-cmake ..
-make
-
-# Acquire the compiled library.
-cd src
-# In build/src directory, there should be libdouglas_peucker.a file.
-# Do whatever you want with it.
-```
+To be able to do anything, first clone this repository. Copy the ```DouglasPeucker.h``` from ```include/``` directory to your own, and your done. The ```src``` is just a code snippet for helping me debug, so don't bother with that.
 
 ## Sample code
-The following is the basic use. By default, the point is represented by ```p2d```, which is just a 2d tuple.
+The following is the basic use. For 2d points there is already p2d defined, which is simply ```std::tuple<double, double>```. 
 
 ```c++
 std::list<p2d> points;
