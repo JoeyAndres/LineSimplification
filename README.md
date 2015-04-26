@@ -39,7 +39,7 @@ std::list<p3d> result = dp3d.getLine();
 
 Note that ```p2d``` and ```p3d``` are just ```tuple<double, double>``` and ```tuple<double, double, double>``` respectively.
 
-## Using Costum Datatype:
+## Using Custom Datatype:
 If you have your own 2D class/struct, with ```getX``` and ```getY``` method is defined then:
 ```cpp
 #include <list>
